@@ -3,11 +3,16 @@ import './App.css';
 import Cart from './Components/Cart/Cart';
 import Card from './Components/Card/Card';
 
+
 const {getData} = require("./db/db")
 const foods = getData();
+const tele = window.Telegram.webApp;
 
 function App() {
  const [cartItems,setCartItems] = useState([])
+ useEffect(()=>{
+  tele.ready();
+ });
 
  const onAdd =(food)=>{
   const exist = cartItems.find((x) => x.id===food.id);
@@ -38,7 +43,7 @@ function App() {
         {
           foods.map((food)=>{
             return(
-                <Card food={food} key={food.id} /> //onAdd={onAdd} onRemove={onRemove}
+                <Card food={food} key={food.id} onAdd={onAdd} onRemove={onRemove}/> 
             )
           })
         }
